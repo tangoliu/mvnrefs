@@ -91,16 +91,60 @@ PS：目录浏览功能被禁用，但是，当你建立 Maven 的项目，它�
   
   
   
+如何从Maven远程存储库下载？  
+根据 Apache Maven 的说明:
+Downloading in Maven is triggered by a project declaring a dependency that is not present in the local repository 
+(or for a SNAPSHOT, when the remote repository contains one that is newer). 
+By default, Maven will download from the central repository.
+在Maven中，当你声明的库不存在于本地存储库中，也没有存在于Maven中心储存库，该过程将停止并将错误消息输出到 Maven 控制台。  
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+1. 示例
+ 以org.jvnet.localizer为例，只适用于 Java.net资源库（https://maven.java.net/content/repositories/public/）。在pom.xml文件中这样配置：  
+<dependency>
+        <groupId>org.jvnet.localizer</groupId>
+        <artifactId>localizer</artifactId>
+        <version>1.8</version>
+</dependency>
+假如当你建立这个 Maven 项目，它的依赖将找不到（以<dependency>声明，会在本地资源库和中央仓库找），从而失败并输出错误消息。  
+2. 声明Java.net储存库
+告诉 Maven 来如何来获得 Java.net 的依赖，你需要声明远程仓库的地址在 pom.xml 文件中，如下面这样：
+<repositories>
+	<repository>
+	    <id>java.net</id>
+	    <url>https://maven.java.net/content/repositories/public/</url>
+	</repository>
+</repositories>
+
+现在，Maven的依赖库查询顺序更改为：
+1.在 Maven 本地资源库中搜索，如果没有找到，进入第 2 步，否则退出。
+2.在 Maven 中央存储库搜索，如果没有找到，进入第 3 步，否则退出。
+3.在java.net Maven的远程存储库搜索，如果没有找到，提示错误信息，否则退出。  
+ 
+如何添加maven远程仓库
+默认情况下，Maven从Maven中央仓库下载所有依赖关系。但是，有些库丢失在中央存储库，只有在Java.net或JBoss的储存库远程仓库中能找到。
+1. Java.net资源库
+添加Java.net远程仓库的详细信息在“pom.xml”文件。  
+<project ...>
+<repositories>
+    <repository>
+      <id>java.net</id>
+      <url>https://maven.java.net/content/repositories/public/</url>
+    </repository>
+ </repositories>
+</project>
+注：旧的 “http://download.java.net/maven/2” 仍然可用, 但建议升级到最新储存库。  
+
+2. JBoss Maven存储库
+ 添加JBoss远程仓库的详细信息在 “pom.xml” 文件中。
+<project ...>
+    <repositories>
+      <repository>
+	      <id>JBoss repository</id>
+	      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+      </repository>
+    </repositories>
+</project>
+注意：旧的 http://repository.jboss.com/maven2/ 已过时，不再使用。  
   
   
   
