@@ -1,0 +1,35 @@
+Maven安装和配置（以Windows为例）
+想要安装 Apache Maven 在Windows系统上, 需要下载 Maven 的 zip 文件，并将其解压到你想安装的目录，并配置 Windows 环境变量。
+所需工具 ：
+-- JDK 1.8（maven是用Java开发的，所以maven运行需要Java运行环境的支持。注意：Maven 3.2 要求 JDK 1.6 或以上版本, 而 Maven 3.0/3.1 需要 JDK 1.5 或以上）
+-- Maven 3.3.3
+-- Windows 7
+
+1. JDK 和 JAVA_HOME
+确保已安装JDK，并 “JAVA_HOME” 变量已加入到 Windows 环境变量。
+系统属性--高级--环境变量--新建--JAVA_HOME变量，变量的值为JDK的安装一级目录。
+2. 下载Apache Maven
+访问 Maven官方网站 http://maven.apache.org/download.cgi，打开后找到下载链接。
+下载 Maven 的 zip 文件，例如： apache-maven-3.3.3-bin.zip，将它解压到你要安装 Maven 的文件夹。（注意：在这一步，是拷贝安装，只是文件夹和文件，安装不是必需的。）
+假设你解压缩到文件夹 –  D:\software\yiibai.com\apache-maven
+3. 添加 M2_HOME 和 MAVEN_HOME
+添加 M2_HOME 和 MAVEN_HOME 环境变量到 Windows 环境变量，并将其指向你的 Maven 文件夹。
+Maven 说只是添加 M2_HOME , 但一些项目仍引用 Maven 的文件夹 MAVEN_HOME, 因此，为了安全也把它添加进去。
+4. 添加到环境变量 - PATH
+更新 PATH 变量，添加 Maven bin 文件夹到 PATH 的最后，如： %M2_HOME%\bin, 这样就可以在命令中的任何目录下运行 Maven 命令了。
+5. 验证
+在命令提示符下执行 mvn –-version ，查看输出结果。成功则会输出maven的版本信息。
+
+
+
+Maven配置文件
+Maven有两个配置文件。配置文件里的设置，对所有的pom文件都是有效的。比如，你可以配置：
+-- 本地仓库的路径；
+-- 当前的编译配置选项
+-- 等等
+
+配置文件名为settings.xml，两个配置文件分别为：
+-- Maven安装目录中：$M2_HOME/conf/settings.xml
+-- 用户主目录中：${user.home}/.m2/settings.xml
+两个配置文件都是可选的。如果两个文件都存在，则用户目录下的配置会覆盖Maven安装目录中的配置。
+关于Maven配置文件，参考[Maven配置文档](http://maven.apache.org/settings.html)
