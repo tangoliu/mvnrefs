@@ -1,0 +1,24 @@
+//最小化的POM文件
+<project xmlns=”http://maven.apache.org/POM/4.0.0″
+xmlns:xsi=”http://www.w3.org/2001/XMLSchema-instance”
+xsi:schemaLocation=”http://maven.apache.org/POM/4.0.0
+http://maven.apache.org/xsd/maven-4.0.0.xsd”>
+<modelVersion>4.0.0</modelVersion>  <!--表示使用的POM模型的版本。选择和你正在使用的Maven版本一致的版本即可。版本4.0.0适用于Maven 2和3。对于Maven2和Maven3来说，它只能是4.0.0-->
+
+<groupId>com.jenkov</groupId>
+<artifactId>java-web-crawler</artifactId>
+<version>1.0.0</version>
+</project>
+
+1、groupId
+　顾名思义，这个应该是公司名或是组织名。一般来说groupId是由三个部分组成，每个部分之间以"."分隔，
+  第一部分是项目用途，比如用于商业的就是"com"，用于非营利性组织的就是"org"；
+  第二部分是公司名，比如"tengxun"、"baidu"、"alibaba"；
+  第三部分是你的项目名
+  groupId不一定非要使用Java的包名，也不一定要使用.分隔符来分隔ID中的词。
+  但是，如果你这么使用，项目将会位于Maven仓库的结构化目录中，该结构化目录与group ID匹配。每一个.是一个目录分隔符，每一个词都表示一个目录。
+2、artifactId
+　　可以认为是Maven构建的项目名，比如你的项目中有子项目，就可以使用"项目名-子项目名"的命名方式
+3、version
+　　版本号，SNAPSHOT意为快照，说明该项目还在开发中，是不稳定的版本。
+  在Maven中很重要的一点是，groupId、artifactId、version三个元素生成了一个Maven项目的基本坐标，这非常重要，我在使用和研究Maven的时候多次感受到了这点。
