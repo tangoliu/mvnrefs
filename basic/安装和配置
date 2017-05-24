@@ -1,4 +1,4 @@
-Maven安装和配置（以Windows为例）
+Maven安装（以Windows为例）
 想要安装 Apache Maven 在Windows系统上, 需要下载 Maven 的 zip 文件，并将其解压到你想安装的目录，并配置 Windows 环境变量。
 所需工具 ：
 -- JDK 1.8（maven是用Java开发的，所以maven运行需要Java运行环境的支持。注意：Maven 3.2 要求 JDK 1.6 或以上版本, 而 Maven 3.0/3.1 需要 JDK 1.5 或以上）
@@ -19,3 +19,97 @@ Maven 说只是添加 M2_HOME , 但一些项目仍引用 Maven 的文件夹 MAVE
 更新 PATH 变量，添加 Maven bin 文件夹到 PATH 的最后，如： %M2_HOME%\bin, 这样就可以在命令中的任何目录下运行 Maven 命令了。
 5. 验证
 在命令提示符下执行 mvn –-version ，查看输出结果。成功则会输出maven的版本信息。
+
+
+=============================================================================================================================
+
+Maven配置文件
+Maven有两个配置文件。配置文件里的设置，对所有的pom文件都是有效的。比如，你可以配置：本地仓库的路径、当前的编译配置选项等等
+配置文件名为settings.xml，两个配置文件分别为：
+-- Maven安装目录中：$M2_HOME/conf/settings.xml
+-- 用户主目录中：${user.home}/.m2/settings.xml
+两个配置文件都是可选的。如果两个文件都存在，则用户目录下的配置会 覆盖 Maven安装目录中的配置。
+关于Maven配置文件，参考[Maven配置文档](http://maven.apache.org/settings.html)
+
+
+
+配置代理服务器信息
+如果公司有代理服务器，无法直接从公司访问互联网，则需要设置maven的代理服务器地址。
+打开{M2_HOME}/conf/settings.xml
+<!-- proxies
+   | This is a list of proxies which can be used on this machine to connect to the network.
+   | Unless otherwise specified (by system property or command-line switch), the first proxy
+   | specification in this list marked as active will be used.
+   |-->
+  <proxies>
+    <!-- proxy
+     | Specification for one proxy, to be used in connecting to the network.
+     |
+    <proxy>
+      <id>optional</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <username>proxyuser</</username>
+      <password>proxypass</password>
+      <host>proxy.host.net</host>
+      <port>80</port>
+      <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
+    </proxy>
+    -->
+  </proxies>
+  
+取消注释代理选项，填写您的代理服务器的详细信息。如下：
+<!-- proxies
+   | This is a list of proxies which can be used on this machine to connect to the network.
+   | Unless otherwise specified (by system property or command-line switch), the first proxy
+   | specification in this list marked as active will be used.
+   |-->
+  <proxies>
+      <proxy>
+      <id>optional</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <username>yiibai</username>
+      <password>password</password>
+      <host>proxy.yiibai.com</host>
+      <port>8888</port>
+      <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
+    </proxy>
+  </proxies>
+  
+完成后，保存文件。Apache Maven 应该是能够通过代理服务器立即连接到Internet。
+注意：重新启动不是必需的。Maven 只是一个命令，当你调用它，它会再次读取该文件。
+
+
+
+
+修改Maven的本地库
+Maven的本地资源库是用来存储所有项目的依赖关系(插件jar和其他文件，这些文件被Maven下载)到本地文件夹。
+很简单，当你建立一个Maven项目，所有相关文件将被存储在你的Maven本地仓库。
+默认情况下，Maven的本地资源库默认为 .m2 目录文件夹：
+++Unix/Mac OS X – ~/.m2
+++Windows – C:\Documents and Settings\{your-username}\.m2
+
+通常情况下，可改变默认的 .m2 目录下的默认本地存储库文件夹到其他更有意义的名称，例如， maven-repo
+找到 {M2_HOME}\conf\setting.xml, 更新 localRepository 到其它名称。
+<settings><!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: ~/.m2/repository-->
+  <localRepository>D:\software\yiibai.com\apache-maven\repository</localRepository>
+
+保存文件，执行命令：
+C:\worksp> mvn archetype:generate -DgroupId=com.yiibai -DartifactId=NumberGenerator -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false  
+执行之后，新的 Maven 本地存储库现在改为 D:\software\yiibai.com\apache-maven\repository.  
+  
+  
+  
+  
+
+Maven中央存储库
+当你建立一个 Maven 的项目，Maven 会检查你的 pom.xml 文件，以确定哪些依赖下载。
+首先，Maven 将从本地资源库获得 Maven 的本地资源库依赖资源，
+如果没有找到，然后它会从默认的 Maven 中央存储库 – http://repo1.maven.org/maven2/ 查找下载。
+Maven中心储存库网站现在已经改版本，目录浏览可能不再使用。这将直接被重定向到 http://search.maven.org/。这就好多了，现在有一个搜索功能。
+PS：目录浏览功能被禁用，但是，当你建立 Maven 的项目，它仍然会从 “http://repo1.maven.org/maven/” 得到依赖, 您可以从 Maven 验证输出。  
+  
