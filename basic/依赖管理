@@ -2,12 +2,12 @@
 这里有2个案例，需要手动发出Maven命令包括一个 jar 到 Maven 的本地资源库。
 1.要使用的第三方 jar 不存在于 Maven 的中心储存库中。
 2.您创建了一个自定义的 jar ，而另一个 Maven 项目需要使用。
-PS，还是有很多 jar 不支持 Maven 的。
+PS，还是有很多 jar 不支持 Maven 的。这两种案例都可以通过执行maven命令或者手动添加的方式进行，第一个案例通过执行maven命令介绍，第二个案例通过手动介绍。
 
-案例学习
+1.案例学习
 例如，kaptcha，它是一个流行的第三方Java库，它被用来生成 “验证码” 的图片，以阻止垃圾邮件，但它不在 Maven 的中央仓库中。
 在本教程中，我们将告诉你如何安装 “kaptcha” jar 到Maven 的本地资源库。
-1. mvn 安装
+(1) mvn 安装
 下载 “kaptcha”，将其解压缩并将 kaptcha-version.jar 复制到其他地方，比如：C盘。
 发出下面的命令：
 mvn install:install-file -Dfile=c:\kaptcha-{version}.jar -DgroupId=com.google.code -DartifactId=kaptcha -Dversion={version} -Dpackaging=jar
@@ -33,7 +33,7 @@ D:\maven_repo\com\google\code\kaptcha\2.3\kaptcha-2.3.jar
 
 现在，“kaptcha” jar被复制到 Maven 本地存储库。
 
-2. pom.xml
+(2) pom.xml
 安装完毕后，就在 pom.xml 中声明 kaptcha 的坐标。
 <dependency>
       <groupId>com.google.code</groupId>
@@ -41,5 +41,26 @@ D:\maven_repo\com\google\code\kaptcha\2.3\kaptcha-2.3.jar
       <version>2.3</version>
  </dependency>
 
-3. 完成
+(3) 完成
 构建它，现在 “kaptcha” jar 能够从你的 Maven 本地存储库检索了。
+
+2.案例学习
+需求：需要添加一个自定义的类库到当前项目中。假定当前的类库文件名为：abc.jar.
+（1）找到当前Maven的Repository类库位置
+一般默认情况下，在window系统下是当前用户目录： C:\Users\ZhangSan.  其中ZhangSan就是系统中当前的用户名. 
+在Linux系统下是/home/${USER_NAME}.
+在此目录下，有一个隐藏的目录.m2/repository专门用来存放Maven系统中管理的各种类库文件。
+（2）假定当前abc.jar的版本为1.0
+（3）在新增POM.xml中新增的Dependency片段为：
+   <dependency>  
+     <groupId>MyLocalJar</groupId>  
+     <artifactId>abc</artifactId>   
+     <version>1.0</version>  
+   </dependency>    
+（4）在.m2/repository下需要新建的目录为：
+    MyLocalJar/abc/1.0/abc-1.0.jar
+    如果groupId为 MyLocalJar.myjar.util，则会被分解为3层的目录结构：MyLocalJar/myjar/util/abc/1.0/abc-1.0.jar. 
+    注意：这里的abc.jar已经被新增了版本号，重名为abc-1.0.jar.
+最后刷新系统就可以，正常使用了。
+
+
