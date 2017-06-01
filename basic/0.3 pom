@@ -3,11 +3,12 @@
 xmlns:xsi=”http://www.w3.org/2001/XMLSchema-instance”
 xsi:schemaLocation=”http://maven.apache.org/POM/4.0.0
 http://maven.apache.org/xsd/maven-4.0.0.xsd”>
-<modelVersion>4.0.0</modelVersion>  <!--表示使用的POM模型的版本。选择和你正在使用的Maven版本一致的版本即可。版本4.0.0适用于Maven 2和3。对于Maven2和Maven3来说，它只能是4.0.0-->
+<modelVersion>4.0.0</modelVersion>  <!--表示使用的当前POM模型的版本。选择和你正在使用的Maven版本一致的版本即可。版本4.0.0适用于Maven 2和3。对于Maven2和Maven3来说，它只能是4.0.0-->
 
 <groupId>com.jenkov</groupId>
 <artifactId>java-web-crawler</artifactId>
 <version>1.0.0</version>
+<name>hello maven</name>  //用于定义对于用户更为友好的项目名称
 </project>
 
 1、groupId
