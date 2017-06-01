@@ -22,6 +22,7 @@ Maven依赖机制
 	    <groupId>log4j</groupId>
 	    <artifactId>log4j</artifactId>
 	    <version>1.2.14</version>
+	    <scope>test</scope>//用于定义该依赖的使用范围，test表示只用于测试代码中，如果用在主代码中则报错。不配置<scope>则表示测试和主代码都可以使用。
     </dependency>
   </dependencies>
 --当 Maven 编译或构建，log4j 的 jar 会自动下载，并把它放到 Maven 本地存储库
