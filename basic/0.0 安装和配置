@@ -28,12 +28,15 @@ Maven有两个配置文件。配置文件里的设置，对所有的pom文件都
 配置文件名为settings.xml，两个配置文件分别为：
 -- Maven安装目录中：$M2_HOME/conf/settings.xml
 -- 用户主目录中：${user.home}/.m2/settings.xml
-两个配置文件都是可选的。如果两个文件都存在，则用户目录下的配置会 覆盖 Maven安装目录中的配置。
+两个配置文件都是可选的。如果两个文件都存在，则用户目录下的配置会 覆盖 Maven安装目录中的配置。最佳实践推荐使用用户目录中的settings.xml文件。
 关于Maven配置文件，参考[Maven配置文档](http://maven.apache.org/settings.html)
 
 
 
 配置代理服务器信息
+第一步，首先确认是否能够直接访问公共的Maven中央仓库，直接运行命令：ping repo1.maven.org。如果不通则需要设置代理。
+第二步，获取代理服务器的地址，并检查代理服务器是否能够连接畅通：telnet 218.14.227.197 3128（分别为代理服务器ip和端口号）。
+       如果连接成功，则输入ctrl+]，然后q，回车，退出即可；如果不成功则需要获取正确的代理服务信息。
 如果公司有代理服务器，无法直接从公司访问互联网，则需要设置maven的代理服务器地址。
 打开{M2_HOME}/conf/settings.xml
 <!-- proxies
@@ -46,14 +49,14 @@ Maven有两个配置文件。配置文件里的设置，对所有的pom文件都
      | Specification for one proxy, to be used in connecting to the network.
      |
     <proxy>
-      <id>optional</id>
-      <active>true</active>
-      <protocol>http</protocol>
-      <username>proxyuser</</username>
+      <id>optional</id>   
+      <active>true</active>  //表示该代理被激活了，即使用该代理。可以配置多个代理，选择其中一个即可。
+      <protocol>http</protocol>  //使用的代理协议
+      <username>proxyuser</</username>  //当代理需要认证时需要username和password
       <password>proxypass</password>
-      <host>proxy.host.net</host>
+      <host>proxy.host.net</host>  //代理服务器的主机和端口号
       <port>80</port>
-      <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
+      <nonProxyHosts>local.net|*.host.com</nonProxyHosts>  //指定访问哪些主机名不需要使用代理，用|来分隔多个主机名
     </proxy>
     -->
   </proxies>
